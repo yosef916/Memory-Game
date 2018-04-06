@@ -1,7 +1,6 @@
-/*
- * Create a list that holds all of your cards
- */
 
+ /* Create a list that holds all of your cards
+ */
 
 /*
  * Display the cards on the page
@@ -10,10 +9,6 @@
  *   - add each card's HTML to the page
  */
 
-let arr = document.getElementByTagName(ul);
-console.log(arr);
-var arrAfterShuffle = shuffle(arr);
-console.log(arrAfterShuffle);
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -29,6 +24,16 @@ function shuffle(array) {
     return array;
 }
 
+function makeShuffle() {
+	const symbols = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-anchor', 'fa-leaf', 'fa-bicycle'];
+	const concat= symbols.concat(symbols);
+	let shuffleSymbols= shuffle(concat);
+	console.log(shuffleSymbols);
+	for (let i=0; i < shuffleSymbols.length; i++){
+		console.log(i + ' - ' + shuffleSymbols[i]);
+	}
+}
+makeShuffle();
 
 /*
  * set up the event listener for a card. If a card is clicked:
