@@ -37,6 +37,10 @@ function makeShuffle() {
 }
 makeShuffle();
 
+$('#call').on('click','li', function(){
+	$(this).addClass("open show");
+});
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
