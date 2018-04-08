@@ -28,9 +28,11 @@ function makeShuffle() {
 	const symbols = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-anchor', 'fa-leaf', 'fa-bicycle'];
 	const concat= symbols.concat(symbols);
 	let shuffleSymbols= shuffle(concat);
-	console.log(shuffleSymbols);
+	// console.log(shuffleSymbols);
 	for (let i=0; i < shuffleSymbols.length; i++){
 		console.log(i + ' - ' + shuffleSymbols[i]);
+		let square = `<li class="card"><i class="fa ${shuffleSymbols[i]}"></i></li>`;
+		$(".deck").append(square);
 	}
 }
 makeShuffle();
