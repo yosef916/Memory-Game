@@ -53,7 +53,7 @@ function showCards() {
 
 				win++;
 				if (win === 8) {
-					console.log('complete');
+					$('#myModal').show();
 				}
 
 			} else {
