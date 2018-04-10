@@ -25,21 +25,47 @@ function shuffle(array) {
 }
 
 function makeShuffle() {
-	const symbols = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-anchor', 'fa-leaf', 'fa-bicycle'];
-	const concat= symbols.concat(symbols);
-	let shuffleSymbols= shuffle(concat);
+	let symbols = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-bomb', 'fa-leaf', 'fa-bicycle'];
+	const concat = symbols.concat(symbols);
+	let shuffleSymbols = shuffle(concat);
 	// console.log(shuffleSymbols);
 	for (let i=0; i < shuffleSymbols.length; i++){
-		console.log(i + ' - ' + shuffleSymbols[i]);
-		let square = `<li class="card"><i class="fa ${shuffleSymbols[i]}"></i></li>`;
+		// console.log(i + ' - ' + shuffleSymbols[i]);
+		let square = `<li class="card"><i class="fa ${shuffleSymbols[i]}" icon="${shuffleSymbols[i]}"></i></li>`;
 		$(".deck").append(square);
 	}
 }
 makeShuffle();
 
-$('#call').on('click','li', function(){
-	$(this).addClass("open show");
-});
+let findMatchCards = []; let moves = 0; let win = 0;
+function showCards() {	
+	$('#call').on('click', 'li', function() {
+		$(this).addClass("open show");
+		let value = $(this).children('i').attr("icon");
+		findMatchCards.push(value);
+
+		if (findMatchCards.length === 2) {
+			moves++;
+			$('#shift').html(moves);
+			
+			if ( findMatchCards[0] === findMatchCards[1] ) {
+				$("#call li.open.show").addClass('match');
+
+				win++;
+				if (win === 8) {
+					console.log('complete');
+				}
+
+			} else {
+				setTimeout(function wait() {
+ 					$("#call li").removeClass("open show");
+ 				}, 500);
+			}
+			findMatchCards = [];
+		}
+	});
+}
+showCards()
 
 /*
  * set up the event listener for a card. If a card is clicked:
