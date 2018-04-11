@@ -10,6 +10,7 @@
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -55,7 +56,6 @@ function showCards() {
 				if (win === 8) {
 					$('#myModal').show();
 				}
-
 			} else {
 				setTimeout(function wait() {
  					$("#call li").removeClass("open show");
@@ -65,7 +65,33 @@ function showCards() {
 		}
 	});
 }
-showCards()
+
+// https://jsfiddle.net/Daniel_Hug/pvk6p/
+
+let stopwatch = document.querySelector('time'), seconds = 0, minutes = 0, t;
+
+function time() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+    }
+    
+    stopwatch.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    timer();
+}
+
+function timer() {
+    t = setTimeout(time, 1000);
+}
+
+
+$('#start').on('click', function() {
+    $(this).hide(); 
+    timer();
+	showCards();
+});
+
 
 /*
  * set up the event listener for a card. If a card is clicked:

@@ -125,7 +125,6 @@ h1 {
 .modal-content {
     font-family: century gothic;
     font-weight: bold;
-    /*color: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);*/
     line-height: 1.5;
     width: 200px;
     position: relative;
@@ -138,4 +137,31 @@ h1 {
 
 .modal-content .only {
     font-style: italic;
+}
+
+#timer {
+    margin-left: 60px;
+    color: #23bdbe;
+}
+
+#start {
+    z-index: 1;
+    position: absolute;
+    top: 67%;
+    right: 46%;
+    width: 100px;
+    height: 50px;
+    background: #00c1ae;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: auto;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    font-family: century gothic;
+    font-weight: bold;
+    color: white;
+}
+#start:hover {
+    background-color: #2a9b93;
 }
