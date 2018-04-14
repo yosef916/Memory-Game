@@ -12,86 +12,147 @@
 // Shuffle function from http://stackoverflow.com/a/2450976
 
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+  while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+  }
 
-    return array;
+  return array;
 }
+
+//START:
+$('#start').on('click', function() {
+  $(this).hide();
+	makeShuffle();
+	inGame();
+	timer();
+});
+
+//SHUFFLE CARDS & DRAW LIs:
+let stopwatch = document.querySelector('time'), seconds = 0, minutes = 0, t;
+let findMatchCards = [ ], diffCards = [ ], cardNum, moves = 0, win = 0;
 
 function makeShuffle() {
 	let symbols = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-bomb', 'fa-leaf', 'fa-bicycle'];
 	const concat = symbols.concat(symbols);
 	let shuffleSymbols = shuffle(concat);
-	// console.log(shuffleSymbols);
-	for (let i=0; i < shuffleSymbols.length; i++){
-		// console.log(i + ' - ' + shuffleSymbols[i]);
-		let square = `<li class="card"><i class="fa ${shuffleSymbols[i]}" icon="${shuffleSymbols[i]}"></i></li>`;
-		$(".deck").append(square);
+
+	for (let i = 0; i < shuffleSymbols.length; i++) {
+		let square = `<li class='card' icon-num='${i}'><i class='fa ${shuffleSymbols[i]}' icon='${shuffleSymbols[i]}'></i></li>`;
+		$('.deck').append(square);
 	}
 }
-makeShuffle();
 
-let findMatchCards = []; let moves = 0; let win = 0;
-function showCards() {	
-	$('#call').on('click', 'li', function() {
-		$(this).addClass("open show");
-		let value = $(this).children('i').attr("icon");
-		findMatchCards.push(value);
+//ADD CLASS match ONLY ON SIMILAR CARDS:
+function similar() {
+  if (findMatchCards.length == 2 ) {
 
-		if (findMatchCards.length === 2) {
-			moves++;
-			$('#shift').html(moves);
-			
-			if ( findMatchCards[0] === findMatchCards[1] ) {
-				$("#call li.open.show").addClass('match');
+  	if (findMatchCards[0] !== findMatchCards[1] ) {
+    setTimeout(function () {      
+       $('.card.open.show').removeClass('open show');         
+    }, 400);
+    findMatchCards = []; diffCards = [];
+    moves++;
+			$('.moves').text(moves);
+  	} else {
 
-				win++;
-				if (win === 8) {
-					$('#myModal').show();
-				}
-			} else {
-				setTimeout(function wait() {
- 					$("#call li").removeClass("open show");
- 				}, 500);
-			}
-			findMatchCards = [];
-		}
-	});
+	    if (diffCards[0] !== diffCards[1]) {
+	      $(".card.open.show" ).addClass('match');
+	      findMatchCards = [];
+	      diffCards = [];
+	      moves++;
+	      win++;
+				$('.moves').text(moves);
+	    } else{
+	      findMatchCards.pop();
+	      diffCards.pop();
+    	}
+    }
+  }
 }
 
-// https://jsfiddle.net/Daniel_Hug/pvk6p/
+//PUSH CARD NAME & INDEX TO THE ARRAYS TO CHECH SIMILARITY:
+function inGame() {
+  $(".deck").on("click","li",function() {
+    let chosen = $(this).children('i').attr("icon");
+    cardIndex = $(this).attr("icon-num");
+    this.classList.add('open', 'show');
+    findMatchCards.push(chosen);
+    diffCards.push(cardIndex);
+    similar();
+    end(); 
+  });
+}
 
-let stopwatch = document.querySelector('time'), seconds = 0, minutes = 0, t;
+//TIMER:
+//https://jsfiddle.net/Daniel_Hug/pvk6p/
 
 function time() {
-    seconds++;
-    if (seconds >= 60) {
-        seconds = 0;
-        minutes++;
-    }
-    
-    stopwatch.textContent = (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-    timer();
-}
+  seconds++;
+  if (seconds >= 60) {
+    seconds = 0;
+    minutes++;
+  }
+
+  stopwatch.textContent = (minutes ? (minutes > 9 ? minutes : '0' + minutes) : '00') + ':' +
+  (seconds > 9 ? seconds : '0' + seconds);
+
+  timer();
+};
 
 function timer() {
-    t = setTimeout(time, 1000);
+  t = setTimeout(time, 1000);
+};
+
+//STARS RATE:
+let stars = 0;
+let hidden = $('.fa-star');
+
+function rate() {
+	if (moves <= 10) {
+		stars = 3;
+ 	} else if (moves >= 10 && moves < 18) {
+  	stars = 2;
+  	hidden[0].remove();
+  } else if (moves > 20) {
+  	stars = 1;
+  	hidden[1].remove();
+  }
 }
 
+//POPUP MODAL:
+function end() {
+	if ( win === 1 ) {
+		$('#myModal').show();
+		clearTimeout(t);
+	}
+}
 
-$('#start').on('click', function() {
-    $(this).hide(); 
-    timer();
-	showCards();
+//RESTART:
+function restart() {
+	$('.deck li').remove();
+
+	win = 0;
+	findMatchCards = []; diffCards = [];
+	$('#myModal').hide();
+	$('#start').hide();
+	makeShuffle();
+	moves = 0;
+	$('.moves').text(moves);
+		seconds = 0;
+	minutes = 0;
+	stopwatch.textContent = '00:00';
+	timer();
+}
+
+$('.restart').on('click', function () {
+	restart();
 });
-
 
 /*
  * set up the event listener for a card. If a card is clicked:
