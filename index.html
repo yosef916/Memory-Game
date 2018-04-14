@@ -16,7 +16,7 @@
         </header>
 
         <section class="score-panel">
-        	<ul class="stars">
+        	<ul id ="stars" class="stars">
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
@@ -38,13 +38,15 @@
 
         <section>
             <div id="myModal" class="modal">
-                <div class="modal-content">
+                <div class="modal-content score-panel">
 
                     <i class="restart fa fa-repeat"></i>
 
-                    <p>You Win!
+                    <div>You Win!
                         <span class='only'>CONGRATULATIONS</span>
-                    </p>
+                        <span id="lastTime">00:00</span>
+                    </div>
+                    <ul class="final-star stars"></ul>
                 </div>
             </div>
         </section>

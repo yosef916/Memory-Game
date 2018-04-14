@@ -78,14 +78,15 @@ function similar() {
 
 //PUSH CARD NAME & INDEX TO THE ARRAYS TO CHECH SIMILARITY:
 function inGame() {
-  $(".deck").on("click","li",function() {
-    let chosen = $(this).children('i').attr("icon");
-    cardIndex = $(this).attr("icon-num");
+  $('.deck').on('click','li',function() {
+    let chosen = $(this).children('i').attr('icon');
+    cardIndex = $(this).attr('icon-num');
     this.classList.add('open', 'show');
     findMatchCards.push(chosen);
     diffCards.push(cardIndex);
     similar();
     end(); 
+    rate();
   });
 }
 
@@ -110,8 +111,7 @@ function timer() {
 };
 
 //STARS RATE:
-let stars = 0;
-let hidden = $('.fa-star');
+let stars = 0, modal, hidden = $('.fa-star');
 
 function rate() {
 	if (moves <= 10) {
@@ -123,30 +123,34 @@ function rate() {
   	stars = 1;
   	hidden[1].remove();
   }
-}
+} 
 
 //POPUP MODAL:
 function end() {
-	if ( win === 1 ) {
-		$('#myModal').show();
+	if ( win === 8 ) {
+		modal = $('#myModal');
+		modal.show();
+		rate();
+		allStars = $('#stars').html();
+		$('.final-star').html(allStars);
 		clearTimeout(t);
+		$('#lastTime').text(stopwatch.textContent);
 	}
 }
 
 //RESTART:
 function restart() {
 	$('.deck li').remove();
-
-	win = 0;
-	findMatchCards = []; diffCards = [];
 	$('#myModal').hide();
 	$('#start').hide();
-	makeShuffle();
-	moves = 0;
 	$('.moves').text(moves);
-		seconds = 0;
+	findMatchCards = []; diffCards = [];
+	win = 0;
+	moves = 0;
+	seconds = 0;
 	minutes = 0;
 	stopwatch.textContent = '00:00';
+	makeShuffle();
 	timer();
 }
 
