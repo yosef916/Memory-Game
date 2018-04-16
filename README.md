@@ -19,3 +19,10 @@ For specific, detailed instructions, look at the project instructions in the [Ud
 This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
 
 For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+
+# How to Play:
+
+1.Open the Index file.
+2.Press start button to start the game.
+3.Test your memory with this memory game by trying to remember 2 matching cards.
+4.When you match all cards you'll see how many moves you did, your rate, and the time you spent during your playing.
