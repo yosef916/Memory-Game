@@ -118,10 +118,11 @@ function rate() {
 		stars = 3;
  	} else if (moves >= 10 && moves < 18) {
   	stars = 2;
-  	hidden[0].remove();
+  	// console.log(hidden[0]);
+  	$(hidden[0]).hide();
   } else if (moves > 20) {
   	stars = 1;
-  	hidden[1].remove();
+  	$(hidden[1]).hide();
   }
 } 
 
@@ -143,14 +144,16 @@ function restart() {
 	$('.deck li').remove();
 	$('#myModal').hide();
 	$('#start').hide();
-	$('.moves').text(moves);
+	hidden.each(function () { $( this ).show() });
 	findMatchCards = []; diffCards = [];
 	win = 0;
 	moves = 0;
+	$('.moves').text(moves);
 	seconds = 0;
 	minutes = 0;
 	stopwatch.textContent = '00:00';
 	makeShuffle();
+	clearTimeout(t);
 	timer();
 }
 
