@@ -128,7 +128,7 @@ function rate() {
 
 //POPUP MODAL:
 function end() {
-	if ( win === 8 ) {
+	if ( win === 1 ) {
 		modal = $('#myModal');
 		modal.show();
 		rate();
